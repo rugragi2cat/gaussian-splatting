@@ -86,8 +86,6 @@ class Scene:
         else:
             self.gaussians.create_from_pcd(scene_info.point_cloud, self.cameras_extent)
 
-        print('ciao')
-        a = self.getCamera(0)
 
     def save(self, iteration):
         point_cloud_path = os.path.join(self.model_path, "point_cloud/iteration_{}".format(iteration))
@@ -99,7 +97,7 @@ class Scene:
     def getTestCameras(self, scale=1.0):
         return self.test_cameras[scale]
     
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.train_cameras[1.0])
     
     def getCamera(self, idx, split='train', scale=1.0) -> Camera:

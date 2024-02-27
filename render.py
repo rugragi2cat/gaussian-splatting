@@ -43,10 +43,13 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
         background = torch.tensor(bg_color, dtype=torch.float32, device="cuda")
 
         if not skip_train:
-             render_set(dataset.model_path, "train", scene.loaded_iter, scene.getTrainCameras(), gaussians, pipeline, background)
+             skip = 10
+             train_cams_list = [scene.getCamera(idx, split='train') for idx in range(0, len(scene)-1, skip)]
+             render_set(dataset.model_path, "train", scene.loaded_iter, train_cams_list, gaussians, pipeline, background)
 
         if not skip_test:
-             render_set(dataset.model_path, "test", scene.loaded_iter, scene.getTestCameras(), gaussians, pipeline, background)
+             test_cams_list = [scene.getCamera(idx, split='test') for idx in range(0, len(scene.test_cameras[1.0])-1)]
+             render_set(dataset.model_path, "test", scene.loaded_iter, test_cams_list, gaussians, pipeline, background)
 
 if __name__ == "__main__":
     # Set up command line argument parser
