@@ -165,7 +165,10 @@ def training_report(tb_writer, iteration, Ll1, loss, l1_loss, elapsed, testing_i
     if iteration in testing_iterations:
         torch.cuda.empty_cache()
         validation_configs = ({'name': 'test', 'cameras' : scene.getTestCameras()}, 
-                              {'name': 'train', 'cameras' : [scene.getTrainCameras()[idx % len(scene.getTrainCameras())] for idx in range(5, 30, 5)]})
+                              {'name': 'train', 'cameras' : [scene.getTrainCameras()[idx % len(scene)] for idx in range(5, 30, 5)]})
+        
+        validation_configs = ({'name': 'test', 'cameras' : scene.getCameras(split='test')}, 
+                              {'name': 'train', 'cameras' :scene.getCameras(split='train', max_num_cams=20)})
 
         for config in validation_configs:
             if config['cameras'] and len(config['cameras']) > 0:

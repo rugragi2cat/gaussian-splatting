@@ -104,9 +104,6 @@ class Scene:
 
         cameras = self.getTrainCameras(scale) if split=='train' else self.getTestCameras(scale)
 
-        cam = cameras[idx]
+        cam_args = cameras[idx]
 
-        c = loadCam(cam[0], cam[1], cam[2], cam[3]) # (args, id, c, resolution_scale)
-
-
-        return c
+        return loadCam(cam_args[0], cam_args[1], cam_args[2], cam_args[3]) # (args, id, c, resolution_scale)
